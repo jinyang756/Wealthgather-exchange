@@ -219,6 +219,55 @@ const TradingHall: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* 5. News Section */}
+      <section className="bg-dark-card rounded-2xl border border-white/5 overflow-hidden">
+        <div className="flex items-center justify-between p-4 border-b border-white/5">
+          <h3 className="font-bold text-white text-sm flex items-center gap-2">
+            <FileText size={16} className="text-primary-gold" />
+            新闻资讯
+          </h3>
+          <button className="text-xs text-gray-500 hover:text-white flex items-center gap-1">
+            更多 <ChevronRight size={14} />
+          </button>
+        </div>
+        
+        <div className="divide-y divide-white/5">
+          {news.length > 0 ? (
+            news.slice(0, 5).map((item) => (
+              <a 
+                key={item.id} 
+                href={item.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block p-4 hover:bg-white/5 transition-colors group"
+              >
+                <div className="flex justify-between items-start gap-2">
+                  <h4 className="text-sm text-white group-hover:text-primary-gold transition-colors line-clamp-2 flex-1">
+                    {item.title}
+                  </h4>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap ${
+                    item.type === 'news' ? 'bg-blue-500/10 text-blue-400' : 
+                    item.type === 'report' ? 'bg-purple-500/10 text-purple-400' : 
+                    'bg-gray-500/10 text-gray-400'
+                  }`}>
+                    {item.type === 'news' ? '新闻' : item.type === 'report' ? '研报' : '公告'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-xs text-gray-500">{item.source || '财经新闻'}</span>
+                  <span className="text-xs text-gray-500">{item.time}</span>
+                </div>
+              </a>
+            ))
+          ) : (
+            <div className="p-8 text-center">
+              <Loader2 className="w-5 h-5 animate-spin text-primary-gold mx-auto mb-2" />
+              <p className="text-xs text-gray-500">正在加载新闻...</p>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

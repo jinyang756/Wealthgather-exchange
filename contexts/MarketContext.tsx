@@ -210,31 +210,54 @@ export const MarketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return () => clearInterval(interval);
   }, []);
 
-  // --- NEWS FETCHING (Using a simple JSON proxy for Sina News or similar) ---
+  // --- NEWS FETCHING (Using Supabase database) ---
   useEffect(() => {
-    // Mocking news fetch for stability, as pure overseas news API for A-shares is rare/expensive
-    setNews([
-      { id: '1', title: '外资机构：A股估值处于历史低位，建议超配', time: '10:23', url: '#', type: 'report' },
-      { id: '2', title: '央行：将继续保持货币政策稳健，支持实体经济', time: '09:45', url: '#', type: 'news' },
-      { id: '3', title: '新能源板块早盘走强，宁德时代涨超3%', time: '09:30', url: '#', type: 'notice' }
-    ]);
-    
-    // AI Suggestions based on real market moves
-    const bullishCount = allStocks.filter(s => s.change > 0).length;
-    const sentiment = bullishCount > allStocks.length / 2 ? 'OPPORTUNITY' : 'RISK';
-    
-    setAiSuggestions([
-      { 
-        id: '1', 
-        type: sentiment, 
-        title: sentiment === 'OPPORTUNITY' ? '多头排列信号' : '市场风险预警', 
-        description: sentiment === 'OPPORTUNITY' 
-          ? '多数权重股呈现上涨趋势，资金流入迹象明显。' 
-          : '市场避险情绪升温，建议控制仓位。', 
-        time: '刚刚' 
+    const fetchNews = async () => {
+      try {
+        // 从 Supabase 数据库获取新闻数据
+        const { data, error } = await supabase
+          .from('news')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10);
+        
+        if (error) {
+          console.error('Failed to fetch news:', error);
+          // 出错时使用模拟数据
+          setNews([
+            { id: '1', title: '外资机构：A股估值处于历史低位，建议超配', time: '10:23', url: '#', type: 'report' },
+            { id: '2', title: '央行：将继续保持货币政策稳健，支持实体经济', time: '09:45', url: '#', type: 'news' },
+            { id: '3', title: '新能源板块早盘走强，宁德时代涨超3%', time: '09:30', url: '#', type: 'notice' }
+          ]);
+        } else {
+          // 转换数据格式
+          const formattedNews = data.map(item => ({
+            id: item.id,
+            title: item.title,
+            time: new Date(item.created_at).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+            url: item.url || '#',
+            source: item.source,
+            type: item.type || 'news'
+          }));
+          setNews(formattedNews);
+        }
+      } catch (err) {
+        console.error('Error fetching news:', err);
+        // 出错时使用模拟数据
+        setNews([
+          { id: '1', title: '外资机构：A股估值处于历史低位，建议超配', time: '10:23', url: '#', type: 'report' },
+          { id: '2', title: '央行：将继续保持货币政策稳健，支持实体经济', time: '09:45', url: '#', type: 'news' },
+          { id: '3', title: '新能源板块早盘走强，宁德时代涨超3%', time: '09:30', url: '#', type: 'notice' }
+        ]);
       }
-    ]);
-  }, [allStocks.length]); // Update when stocks update
+    };
+
+    fetchNews();
+    
+    // 每30秒刷新一次新闻数据
+    const interval = setInterval(fetchNews, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   // --- WATCHLIST ACTIONS ---
   const addToWatchlist = async (stock: Stock) => {
