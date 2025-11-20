@@ -1,11 +1,13 @@
-
 import { createClient } from '@supabase/supabase-js';
 
-// ⚠️ 真实项目中请务必将这些放入 .env 文件
-const SUPABASE_URL = 'https://nckohppnjcabxqfzyvyh.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ja29ocHBuamNhYnhxZnp5dnloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MTEyNTksImV4cCI6MjA3ODM4NzI1OX0.3ANZon2LK44Wfj8kAZmkLFYKj39wDXxtADmqV5QqsHg';
+const SUPABASE_URL = "https://nckohppnjcabxqfzyvyh.supabase.co";
+const SUPABASE_KEY = process.env.SUPABASE_KEY || 'SUPABASE_CLIENT_API_KEY';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  throw new Error('Missing Supabase environment variables (SUPABASE_URL or SUPABASE_KEY).');
+}
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
