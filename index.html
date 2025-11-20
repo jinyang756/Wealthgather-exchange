@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
+    
+    <!-- STANDARD APP META: Makes the app look legitimate to browsers/security bots -->
+    <meta name="application-name" content="聚财众发" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#1A1A1A" />
+    <meta name="description" content="Professional institutional trading terminal providing secure market analysis and asset management." />
+    
+    <!-- CRITICAL FOR DATA FETCHING: Hides referrer so API doesn't block us -->
+    <meta name="referrer" content="no-referrer" />
+
+    <title>聚财众发交易所 - 专业机构交易端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                gold: '#D4AF37',
+                deep: '#B8860B',
+                light: '#FFD700',
+              },
+              status: {
+                profit: '#FF4444', 
+                loss: '#00C851',   
+                warning: '#FFBB33',
+              },
+              dark: {
+                bg: '#1A1A1A',
+                card: '#2D2D2D',
+                lighter: '#3D3D3D'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'sans-serif'],
+            },
+            animation: {
+              'scan-x': 'scan-x 2s linear infinite',
+              'fade-in': 'fadeIn 0.3s ease-out',
+              'bounce-in': 'bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            },
+            keyframes: {
+              'scan-x': {
+                '0%': { left: '-10%' },
+                '100%': { left: '110%' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              bounceIn: {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #1A1A1A;
+        color: #FFFFFF;
+        -webkit-font-smoothing: antialiased;
+        overscroll-behavior-y: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1A1A1A; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #3D3D3D; 
+        border-radius: 2px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #D4AF37; 
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "react-webcam": "https://aistudiocdn.com/react-webcam@^7.2.0",
+    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.48.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
